@@ -45,7 +45,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "каталог" in txt:
         await update.message.reply_text("Выберите категорию:", reply_markup=categories_keyboard())
     elif "инструк" in txt:
-        await update.message.reply_text("Инструкции: https://example.com/manual")
+        await update.message.reply_text("Инструкции: https://xn----7sbbqqeail6cgq0d.xn--p1ai/faq/")
     elif "техпод" in txt or "оператор" in txt:
         await update.message.reply_text("Оператор подключится в ближайшее время.")
     else:
