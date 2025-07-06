@@ -8,7 +8,7 @@ from telegram.ext import (
 
 # Загрузка токена и ID оператора из переменных среды
 TOKEN = os.getenv("BOT_TOKEN")
-OPERATOR_CHAT_ID = int(os.getenv("OPERATOR_CHAT_ID", "17868551565"))  
+OPERATOR_CHAT_ID = int(os.getenv("OPERATOR_CHAT_ID", "17868551565")) #
 
 # ---------- читаем каталог ----------
 with open("catalog.json", encoding="utf-8") as f:
