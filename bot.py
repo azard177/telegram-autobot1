@@ -1,12 +1,16 @@
 
-import json, os, logging
+import json
+import os
+import logging
 from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder, CommandHandler, MessageHandler,
     CallbackQueryHandler, ContextTypes, filters
 )
 
-TOKEN = os.getenv("BOT_TOKEN")
+# ---- конфигурация ----
+TOKEN = os.getenv("BOT_TOKEN")                 # токен берём из переменной среды
+OPERATOR_CHAT_ID = 17868551565                # ID оператора (заменён по просьбе)
 
 # ---------- читаем каталог ----------
 with open("catalog.json", encoding="utf-8") as f:
@@ -18,7 +22,7 @@ def categories_keyboard():
         for cat in CATALOG
     ])
 
-def items_keyboard(cat_id):
+def items_keyboard(cat_id: str):
     cat = next(c for c in CATALOG if c["cat_id"] == cat_id)
     return InlineKeyboardMarkup([
         [InlineKeyboardButton(item["name"], callback_data=f"item_{item['id']}")]
@@ -40,8 +44,7 @@ async def get_chat_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ---------- /start ----------
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Здравствуйте! Я помогу вам выбрать и купить товары.
-"
+        "Здравствуйте! Я помогу вам выбрать и купить товары.\n"
         "Нажмите «🛍 Каталог» или выберите действие:",
         reply_markup=main_menu
     )
@@ -56,10 +59,15 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif "техпод" in txt or "оператор" in txt:
         await update.message.reply_text("Оператор подключится в ближайшее время.")
 
-        operator_id = 17868551565  # 
         user = update.effective_user
-        text = f"📞 Пользователь @{user.username or 'без username'} ({user.id}) просит поддержки."
-        await context.bot.send_message(chat_id=operator_id, text=text)
+        text = (
+            f"📞 *Новый запрос в техподдержку*
+"
+            f"Пользователь: @{user.username or 'без username'} ({user.id})
+"
+            f"Чат: {update.effective_chat.id}"
+        )
+        await context.bot.send_message(chat_id=OPERATOR_CHAT_ID, text=text, parse_mode="Markdown")
     else:
         await update.message.reply_text("Выберите кнопку ниже:", reply_markup=main_menu)
 
@@ -79,11 +87,8 @@ async def item_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     item = next(i for cat in CATALOG for i in cat["items"] if i["id"] == item_id)
 
     caption = (
-        f"*{item['name']}* — {item['price']} ₽
-"
-        f"{item['desc']}
-
-"
+        f"*{item['name']}* — {item['price']} ₽\n"
+        f"{item['desc']}\n\n"
         "✏️ Напишите количество или вопрос по товару."
     )
     await update.callback_query.message.reply_photo(
