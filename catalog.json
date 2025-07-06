@@ -1,0 +1,38 @@
+[
+  {
+    "cat_id": "tents",
+    "cat_name": "Тенты для бассейна",
+    "items": [
+      { "id": "tent_183", "name": "Тент 183 см",  "price": 1200, "photo": "https://example.com/tent183.jpg",  "desc": "Подходит для Intex 183 см" },
+      { "id": "tent_244", "name": "Тент 244 см",  "price": 1400, "photo": "https://example.com/tent244.jpg",  "desc": "PVC, защита от УФ" },
+      { "id": "tent_305", "name": "Тент 305 см",  "price": 1600, "photo": "https://example.com/tent305.jpg",  "desc": "Плотный полиэстер 210D" },
+      { "id": "tent_366", "name": "Тент 366 см",  "price": 1900, "photo": "https://example.com/tent366.jpg",  "desc": "Покрытие PU 1000 мм" }
+    ]
+  },
+  {
+    "cat_id": "covers",
+    "cat_name": "Чехлы для шезлонга",
+    "items": [
+      { "id": "cover_ox_olive",  "name": "Оксфорд Олива",  "price": 1100, "photo": "https://example.com/olive.jpg",  "desc": "Водонепроницаемый 210D" },
+      { "id": "cover_ox_bordo",  "name": "Оксфорд Бордо",  "price": 1100, "photo": "https://example.com/bordo.jpg",  "desc": "Цвет «Бордо», молния YKK" },
+      { "id": "cover_sp_black",  "name": "Спанбонд Чёрный", "price": 850,  "photo": "https://example.com/black.jpg", "desc": "Дышащий, защита от пыли" }
+    ]
+  },
+  {
+    "cat_id": "blankets",
+    "cat_name": "Антидроновое одеяло",
+    "items": [
+      { "id": "blanket_moss",  "name": "Одеяло «Мох»",           "price": 6900, "photo": "https://example.com/moss.jpg",   "desc": "Стандартная толщина, цвет мох" },
+      { "id": "blanket_mesh",  "name": "Маскировочная сетка",    "price": 7200, "photo": "https://example.com/mesh.jpg",   "desc": "Сетка + IR-пленка" },
+      { "id": "blanket_gen2",  "name": "GEN2 ультратонкое",      "price": 8200, "photo": "https://example.com/gen2.jpg",   "desc": "Новая технология, 450 г" }
+    ]
+  },
+  {
+    "cat_id": "women",
+    "cat_name": "Женская одежда",
+    "items": [
+      { "id": "women_tees",   "name": "Футболки", "price": 1400, "photo": "https://example.com/tee.jpg",   "desc": "Муслин, oversize" },
+      { "id": "women_pjs",    "name": "Пижамы",   "price": 2100, "photo": "https://example.com/pj.jpg",    "desc": "Муслин, 2-предм. набор" }
+    ]
+  }
+]
