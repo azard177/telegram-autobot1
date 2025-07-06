@@ -14,26 +14,26 @@
     "cat_id": "covers",
     "cat_name": "Чехлы для шезлонга",
     "items": [
-      { "id": "cover_ox_olive",  "name": "Оксфорд Олива",  "price": 1100, "photo": "https://example.com/olive.jpg",  "desc": "Водонепроницаемый 210D" },
-      { "id": "cover_ox_bordo",  "name": "Оксфорд Бордо",  "price": 1100, "photo": "https://example.com/bordo.jpg",  "desc": "Цвет «Бордо», молния YKK" },
-      { "id": "cover_sp_black",  "name": "Спанбонд Чёрный", "price": 850,  "photo": "https://example.com/black.jpg", "desc": "Дышащий, защита от пыли" }
+      { "id": "cover_ox_olive",  "name": "Оксфорд Олива",  "price": 1100, "photo": "http://xn----7sbbqqeail6cgq0d.xn--p1ai/wp-content/uploads/2025/07/олива-11.jpg",  "desc": "Цвет «Олива», 21D" },
+      { "id": "cover_ox_bordo",  "name": "Оксфорд Бордо",  "price": 1100, "photo": "http://xn----7sbbqqeail6cgq0d.xn--p1ai/wp-content/uploads/2025/07/бордо-11.jpg",  "desc": "Цвет «Бордо», 21D" },
+      { "id": "cover_sp_black",  "name": "Спанбонд Чёрный", "price": 850,  "photo": "http://xn----7sbbqqeail6cgq0d.xn--p1ai/wp-content/uploads/2025/07/спан-11.jpg", "desc": "Цвет «Черный», Спандбонд 80г/м2" }
     ]
   },
   {
     "cat_id": "blankets",
     "cat_name": "Антидроновое одеяло",
     "items": [
-      { "id": "blanket_moss",  "name": "Одеяло «Мох»",           "price": 6900, "photo": "https://example.com/moss.jpg",   "desc": "Стандартная толщина, цвет мох" },
-      { "id": "blanket_mesh",  "name": "Маскировочная сетка",    "price": 7200, "photo": "https://example.com/mesh.jpg",   "desc": "Сетка + IR-пленка" },
-      { "id": "blanket_gen2",  "name": "GEN2 ультратонкое",      "price": 8200, "photo": "https://example.com/gen2.jpg",   "desc": "Новая технология, 450 г" }
+      { "id": "blanket_moss",  "name": "Одеяло «Мох»",           "price": 1900, "photo": "http://xn----7sbbqqeail6cgq0d.xn--p1ai/wp-content/uploads/2025/07/0-980-09.jpg",   "desc": "Стандартная толщина, цвет мох" },
+      { "id": "blanket_mesh",  "name": "Маскировочная сетка",    "price": 4200, "photo": "http://xn----7sbbqqeail6cgq0d.xn--p1ai/wp-content/uploads/2025/07/00-980-.jpg",   "desc": "Сетка + оксфорд" },
+      { "id": "blanket_gen2",  "name": "GEN2 ультратонкое",      "price": 4200, "photo": "http://xn----7sbbqqeail6cgq0d.xn--p1ai/wp-content/uploads/2025/07/1.jpg",   "desc": "Новая технология, 650 г" }
     ]
   },
   {
     "cat_id": "women",
     "cat_name": "Женская одежда",
     "items": [
-      { "id": "women_tees",   "name": "Футболки", "price": 1400, "photo": "https://example.com/tee.jpg",   "desc": "Муслин, oversize" },
-      { "id": "women_pjs",    "name": "Пижамы",   "price": 2100, "photo": "https://example.com/pj.jpg",    "desc": "Муслин, 2-предм. набор" }
+      { "id": "women_tees",   "name": "Футболки", "price": 950, "photo": "http://xn----7sbbqqeail6cgq0d.xn--p1ai/wp-content/uploads/2025/07/10-901.jpg",   "desc": "Футболка 100% хлопок, oversize" },
+      { "id": "women_pjs",    "name": "Пижамы",   "price": 1300, "photo": "http://xn----7sbbqqeail6cgq0d.xn--p1ai/wp-content/uploads/2025/07/09-28.jpg",    "desc": "Пижама с шортами велюровая" }
     ]
   }
 ]
