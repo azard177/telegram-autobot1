@@ -1,11 +1,10 @@
 services:
   - type: web
     name: telegram-shop-bot
-    runtime: python          # <-- обязательно
+    runtime: python          # обязателен
     plan: free
 
-    # 👇 ВАЖНО: версия Python внутри объекта service
-    pythonVersion: 3.10      
+    pythonVersion: 3.11      # 3.10 или 3.11 – проверено
 
     buildCommand: pip install -r requirements.txt
     startCommand: python bot.py
