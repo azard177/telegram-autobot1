@@ -1,4 +1,3 @@
-
 import json
 import os
 import logging
@@ -9,8 +8,8 @@ from telegram.ext import (
 )
 
 # ---- конфигурация ----
-TOKEN = os.getenv("BOT_TOKEN")                 # токен берём из переменной среды
-OPERATOR_CHAT_ID = 17868551565                # ID оператора (заменён по просьбе)
+TOKEN = os.getenv("BOT_TOKEN")                 # 
+OPERATOR_CHAT_ID = 17868551565                # 
 
 # ---------- читаем каталог ----------
 with open("catalog.json", encoding="utf-8") as f:
