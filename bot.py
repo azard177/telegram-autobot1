@@ -53,19 +53,21 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Инструкции: https://xn----7sbbqqeail6cgq0d.xn--p1ai/faq/")
 
     elif "техпод" in txt or "оператор" in txt:
-    await update.message.reply_text("Оператор подключится в ближайшее время.")
+        # 1) отвечаем клиенту
+        await update.message.reply_text("Оператор подключится в ближайшее время.")
 
-    user = update.effective_user
-    notify = (
-        f"📞 <b>Новый запрос в техподдержку</b>\n"
-        f"Пользователь: @{user.username or 'без_username'} ({user.id})\n"
-        f"Чат: {update.effective_chat.id}"
-    )
-    await context.bot.send_message(
-        chat_id=OPERATOR_CHAT_ID,
-        text=notify,
-        parse_mode="HTML"          # ← HTML, не Markdown
-    )
+        # 2) уведомляем оператора
+        user = update.effective_user
+        notify = (
+            f"📞 <b>Новый запрос в техподдержку</b>\n"
+            f"Пользователь: @{user.username or 'без_username'} ({user.id})\n"
+            f"Чат: {update.effective_chat.id}"
+        )
+        await context.bot.send_message(
+            chat_id=OPERATOR_CHAT_ID,
+            text=notify,
+            parse_mode="HTML"
+        )
 
     else:
         await update.message.reply_text("Выберите кнопку ниже:", reply_markup=main_menu)
