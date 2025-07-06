@@ -63,7 +63,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"Пользователь: @{user.username or 'без username'} ({user.id})\n"
             f"Чат: {update.effective_chat.id}"
         )
-        await context.bot.send_message(OPERATOR_CHAT_ID, notify, parse_mode="Markdown")
+        await context.bot.send_message(OPERATOR_CHAT_ID, notify, parse_mode="HTML")
 
     else:
         await update.message.reply_text("Выберите кнопку ниже:", reply_markup=main_menu)
