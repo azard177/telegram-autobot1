@@ -1,41 +1,94 @@
-from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
-import os
+import json, os, logging
+from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import (
+    ApplicationBuilder, CommandHandler, MessageHandler,
+    CallbackQueryHandler, ContextTypes, filters
+)
 
 TOKEN = os.getenv("BOT_TOKEN")
 
+# ---------- читаем каталог ----------
+with open("catalog.json", encoding="utf-8") as f:
+    CATALOG = json.load(f)
+
+def categories_keyboard():
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton(cat["cat_name"], callback_data=f"cat_{cat['cat_id']}")]
+        for cat in CATALOG
+    ])
+
+def items_keyboard(cat_id):
+    cat = next(c for c in CATALOG if c["cat_id"] == cat_id)
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton(item["name"], callback_data=f"item_{item['id']}")]
+        for item in cat["items"]
+    ])
+
+# ---------- главное меню ----------
 main_menu = ReplyKeyboardMarkup(
-    keyboard=[
-        ["📄 Инструкции", "🛒 Купить"],
-        ["👨‍💻 Позвать оператора", "❓ Другой вопрос"]
-    ],
+    [["🛍 Каталог", "📄 Инструкции"],
+     ["👨‍💻 Техподдержка", "❓ Другой вопрос"]],
     resize_keyboard=True
 )
 
+# ---------- /start ----------
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Здравствуйте, спасибо, что обратились в нашу техподдержку!",
+        "Здравствуйте! Я помогу вам выбрать и купить товары.\n"
+        "Нажмите «🛍 Каталог» или выберите действие:",
         reply_markup=main_menu
     )
 
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text.strip()
-    if text == "📄 Инструкции":
-        await update.message.reply_text("📘 Инструкция: example.com/manual.pdf")
-    elif text == "🛒 Купить":
-        await update.message.reply_text("🛍 Каталог:\n1. Бассейн — 2990 ₽\n2. Чехол — 1490 ₽\n3. Тент — 2100 ₽")
-    elif text == "👨‍💻 Позвать оператора":
-        await update.message.reply_text("Оператор скоро подключится. Пожалуйста, подождите.")
-    elif text == "❓ Другой вопрос":
-        await update.message.reply_text("Пожалуйста, опишите свой вопрос.")
+# ---------- текст ----------
+async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    txt = update.message.text.lower()
+    if "каталог" in txt:
+        await update.message.reply_text("Выберите категорию:", reply_markup=categories_keyboard())
+    elif "инструк" in txt:
+        await update.message.reply_text("Инструкции: https://example.com/manual")
+    elif "техпод" in txt or "оператор" in txt:
+        await update.message.reply_text("Оператор подключится в ближайшее время.")
     else:
-        await update.message.reply_text("Я не понял сообщение. Выберите кнопку ниже:", reply_markup=main_menu)
+        await update.message.reply_text("Выберите кнопку ниже:", reply_markup=main_menu)
 
+# ---------- нажали категорию ----------
+async def category_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    cat_id = update.callback_query.data.removeprefix("cat_")
+    await update.callback_query.answer()
+    await update.callback_query.message.reply_text(
+        "Товары:",
+        reply_markup=items_keyboard(cat_id)
+    )
+
+# ---------- нажали товар ----------
+async def item_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    item_id = update.callback_query.data.removeprefix("item_")
+    await update.callback_query.answer()
+    # ищем товар во всех категориях
+    item = next(i for cat in CATALOG for i in cat["items"] if i["id"] == item_id)
+
+    caption = (
+        f"*{item['name']}* — {item['price']} ₽\n"
+        f"{item['desc']}\n\n"
+        "✏️ Напишите количество или вопрос по товару."
+    )
+    await update.callback_query.message.reply_photo(
+        photo=item["photo"],
+        caption=caption,
+        parse_mode="Markdown"
+    )
+
+# ---------- запуск ----------
 def main():
+    logging.basicConfig(level=logging.INFO)
     app = ApplicationBuilder().token(TOKEN).build()
+
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-    print("Бот запущен...")
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
+    app.add_handler(CallbackQueryHandler(category_click, pattern=r"^cat_"))
+    app.add_handler(CallbackQueryHandler(item_click,      pattern=r"^item_"))
+
+    print("Bot with full catalog is running…")
     app.run_polling()
 
 if __name__ == "__main__":
