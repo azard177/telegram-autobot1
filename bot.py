@@ -1,3 +1,4 @@
+
 import json, os, logging
 from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
@@ -5,7 +6,9 @@ from telegram.ext import (
     CallbackQueryHandler, ContextTypes, filters
 )
 
+# Загрузка токена и ID оператора из переменных среды
 TOKEN = os.getenv("BOT_TOKEN")
+OPERATOR_CHAT_ID = int(os.getenv("OPERATOR_CHAT_ID", "17868551565"))  
 
 # ---------- читаем каталог ----------
 with open("catalog.json", encoding="utf-8") as f:
@@ -47,7 +50,13 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif "инструк" in txt:
         await update.message.reply_text("Инструкции: https://xn----7sbbqqeail6cgq0d.xn--p1ai/faq/")
     elif "техпод" in txt or "оператор" in txt:
+        user = update.message.from_user
+        user_info = f"👤 @{user.username or user.first_name} (ID: {user.id})"
         await update.message.reply_text("Оператор подключится в ближайшее время.")
+        await context.bot.send_message(
+            chat_id=OPERATOR_CHAT_ID,
+            text=f"📞 Новый запрос в техподдержку от {user_info}:\n{update.message.text}"
+        )
     else:
         await update.message.reply_text("Выберите кнопку ниже:", reply_markup=main_menu)
 
@@ -64,9 +73,7 @@ async def category_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def item_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     item_id = update.callback_query.data.removeprefix("item_")
     await update.callback_query.answer()
-    # ищем товар во всех категориях
     item = next(i for cat in CATALOG for i in cat["items"] if i["id"] == item_id)
-
     caption = (
         f"*{item['name']}* — {item['price']} ₽\n"
         f"{item['desc']}\n\n"
