@@ -56,17 +56,17 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif "инструк" in txt:
         await update.message.reply_text("Инструкции: https://xn----7sbbqqeail6cgq0d.xn--p1ai/faq/")
     elif "техпод" in txt or "оператор" in txt:
-        await update.message.reply_text("Оператор подключится в ближайшее время.")
+    await update.message.reply_text("Оператор подключится в ближайшее время.")
 
-        user = update.effective_user
-        text = (
-            f"📞 *Новый запрос в техподдержку*
-"
-            f"Пользователь: @{user.username or 'без username'} ({user.id})
-"
-            f"Чат: {update.effective_chat.id}"
-        )
-        await context.bot.send_message(chat_id=OPERATOR_CHAT_ID, text=text, parse_mode="Markdown")
+    user = update.effective_user
+    text = (
+        f"📞 *Новый запрос в техподдержку*\n"
+        f"Пользователь: @{user.username or 'без username'} ({user.id})\n"
+        f"Чат: {update.effective_chat.id}"
+    )
+    await context.bot.send_message(chat_id=OPERATOR_CHAT_ID,
+                                   text=text,
+                                   parse_mode="Markdown")
     else:
         await update.message.reply_text("Выберите кнопку ниже:", reply_markup=main_menu)
 
