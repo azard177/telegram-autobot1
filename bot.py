@@ -1,4 +1,5 @@
 import json, os, logging
+OPERATOR_CHAT_ID = 17868551565 #
 from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder, CommandHandler, MessageHandler,
