@@ -1,12 +1,15 @@
-pythonVersion: 3.10
-
 services:
   - type: web
-    name: telegram-autobot
-    env: python
+    name: telegram-shop-bot
+    runtime: python          # <-- обязательно
     plan: free
+
+    # 👇 ВАЖНО: версия Python внутри объекта service
+    pythonVersion: 3.10      
+
     buildCommand: pip install -r requirements.txt
     startCommand: python bot.py
+
     envVars:
       - key: BOT_TOKEN
         fromSecret: BOT_TOKEN
