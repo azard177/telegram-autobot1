@@ -62,12 +62,13 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"📞 <b>Новый запрос в техподдержку</b>\n"
             f"Пользователь: @{user.username or 'без_username'} ({user.id})\n"
             f"Чат: {update.effective_chat.id}"
-        )
-        await context.bot.send_message(
-            chat_id=OPERATOR_CHAT_ID,
-            text=notify,
-            parse_mode="HTML"
-        )
+    )
+
+    await context.bot.send_message(
+        chat_id=OPERATOR_CHAT_ID,
+        text=notify,
+        parse_mode="HTML"          # ← HTML безопаснее Markdown
+    )
 
     else:
         await update.message.reply_text("Выберите кнопку ниже:", reply_markup=main_menu)
