@@ -3,10 +3,11 @@
     "cat_id": "tents",
     "cat_name": "Тенты для бассейна",
     "items": [
-      { "id": "tent_183", "name": "Тент 183 см",  "price": 1200, "photo": "https://example.com/tent183.jpg",  "desc": "Подходит для Intex 183 см" },
-      { "id": "tent_244", "name": "Тент 244 см",  "price": 1400, "photo": "https://example.com/tent244.jpg",  "desc": "PVC, защита от УФ" },
-      { "id": "tent_305", "name": "Тент 305 см",  "price": 1600, "photo": "https://example.com/tent305.jpg",  "desc": "Плотный полиэстер 210D" },
-      { "id": "tent_366", "name": "Тент 366 см",  "price": 1900, "photo": "https://example.com/tent366.jpg",  "desc": "Покрытие PU 1000 мм" }
+      { "id": "tent_183", "name": "Тент 183 см",  "price": 1000, "photo": "https://example.com/tent183.jpg",  "desc": "Подходит для Intex 183 см" },
+      { "id": "tent_244", "name": "Тент 244 см",  "price": 1100, "photo": "https://example.com/tent244.jpg",  "desc": "PVC, защита от УФ" },
+      { "id": "tent_305", "name": "Тент 305 см",  "price": 1200, "photo": "http://xn----7sbbqqeail6cgq0d.xn--p1ai/wp-content/uploads/2025/07/305-2-scaled.jpg",  "desc": "Плотный полиэстер 210D" },
+      { "id": "tent_305", "name": "Тент 305 см люверс",  "price": 1280, "photo": "https://example.com/tent305.jpg",  "desc": "Плотный полиэстер 210D" },
+      { "id": "tent_366", "name": "Тент 366 см",  "price": 1600, "photo": "https://example.com/tent366.jpg",  "desc": "Покрытие PU 1000 мм" }
     ]
   },
   {
