@@ -1,5 +1,4 @@
 import json, os, logging
-OPERATOR_CHAT_ID = 17868551565 #
 from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder, CommandHandler, MessageHandler,
@@ -7,6 +6,7 @@ from telegram.ext import (
 )
 
 TOKEN = os.getenv("BOT_TOKEN")
+OPERATOR_CHAT_ID = 17868551565 #
 
 # ---------- читаем каталог ----------
 with open("catalog.json", encoding="utf-8") as f:
