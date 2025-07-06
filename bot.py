@@ -1,44 +1,38 @@
-import json
-import os
-import logging
+import json, os, logging
 from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder, CommandHandler, MessageHandler,
     CallbackQueryHandler, ContextTypes, filters
 )
 
-# ---- конфигурация ----
-TOKEN = os.getenv("BOT_TOKEN")                 # 
-OPERATOR_CHAT_ID = 17868551565                # 
+TOKEN = os.getenv("BOT_TOKEN")
+OPERATOR_CHAT_ID = 17868551565  # ID оператора
 
 # ---------- читаем каталог ----------
 with open("catalog.json", encoding="utf-8") as f:
     CATALOG = json.load(f)
 
 def categories_keyboard():
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton(cat["cat_name"], callback_data=f"cat_{cat['cat_id']}")]
-        for cat in CATALOG
-    ])
+    return InlineKeyboardMarkup(
+        [[InlineKeyboardButton(cat["cat_name"], callback_data=f"cat_{cat['cat_id']}")] for cat in CATALOG]
+    )
 
 def items_keyboard(cat_id: str):
     cat = next(c for c in CATALOG if c["cat_id"] == cat_id)
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton(item["name"], callback_data=f"item_{item['id']}")]
-        for item in cat["items"]
-    ])
+    return InlineKeyboardMarkup(
+        [[InlineKeyboardButton(item["name"], callback_data=f"item_{item['id']}")] for item in cat["items"]]
+    )
 
 # ---------- главное меню ----------
 main_menu = ReplyKeyboardMarkup(
-    [["🛍 Каталог", "📄 Инструкции"],
-     ["👨‍💻 Техподдержка", "❓ Другой вопрос"]],
+    [["🛍 Каталог", "📄 Инструкции"], ["👨‍💻 Техподдержка", "❓ Другой вопрос"]],
     resize_keyboard=True
 )
 
 # ---------- /getid ----------
 async def get_chat_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    chat_id = update.effective_chat.id
-    await update.message.reply_text(f"Ваш chat_id: `{chat_id}`", parse_mode="Markdown")
+    cid = update.effective_chat.id
+    await update.message.reply_text(f"Ваш chat_id: `{cid}`", parse_mode="Markdown")
 
 # ---------- /start ----------
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -51,22 +45,26 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ---------- текст ----------
 async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     txt = update.message.text.lower()
+
     if "каталог" in txt:
         await update.message.reply_text("Выберите категорию:", reply_markup=categories_keyboard())
+
     elif "инструк" in txt:
         await update.message.reply_text("Инструкции: https://xn----7sbbqqeail6cgq0d.xn--p1ai/faq/")
-    elif "техпод" in txt or "оператор" in txt:
-    await update.message.reply_text("Оператор подключится в ближайшее время.")
 
-    user = update.effective_user
-    text = (
-        f"📞 *Новый запрос в техподдержку*\n"
-        f"Пользователь: @{user.username or 'без username'} ({user.id})\n"
-        f"Чат: {update.effective_chat.id}"
-    )
-    await context.bot.send_message(chat_id=OPERATOR_CHAT_ID,
-                                   text=text,
-                                   parse_mode="Markdown")
+    elif "техпод" in txt or "оператор" in txt:
+        # 1) ответ пользователю
+        await update.message.reply_text("Оператор подключится в ближайшее время.")
+
+        # 2) уведомление оператору
+        user = update.effective_user
+        notify = (
+            f"📞 *Новый запрос в техподдержку*\n"
+            f"Пользователь: @{user.username or 'без username'} ({user.id})\n"
+            f"Чат: {update.effective_chat.id}"
+        )
+        await context.bot.send_message(OPERATOR_CHAT_ID, notify, parse_mode="Markdown")
+
     else:
         await update.message.reply_text("Выберите кнопку ниже:", reply_markup=main_menu)
 
@@ -74,10 +72,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def category_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cat_id = update.callback_query.data.removeprefix("cat_")
     await update.callback_query.answer()
-    await update.callback_query.message.reply_text(
-        "Товары:",
-        reply_markup=items_keyboard(cat_id)
-    )
+    await update.callback_query.message.reply_text("Товары:", reply_markup=items_keyboard(cat_id))
 
 # ---------- нажали товар ----------
 async def item_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -91,9 +86,7 @@ async def item_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "✏️ Напишите количество или вопрос по товару."
     )
     await update.callback_query.message.reply_photo(
-        photo=item["photo"],
-        caption=caption,
-        parse_mode="Markdown"
+        photo=item["photo"], caption=caption, parse_mode="Markdown"
     )
 
 # ---------- запуск ----------
