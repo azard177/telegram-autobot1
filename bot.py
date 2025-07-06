@@ -58,17 +58,19 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         # 2) уведомляем оператора
         user = update.effective_user
-        notify = (
-            f"📞 <b>Новый запрос в техподдержку</b>\n"
-            f"Пользователь: @{user.username or 'без_username'} ({user.id})\n"
-            f"Чат: {update.effective_chat.id}"
-        )
+        from telegram.error import BadRequest, Forbidden  # ← добавьте в начало файла (раздел import'ов)
 
-        await context.bot.send_message(
-        chat_id=OPERATOR_CHAT_ID,
-        text=notify,
-        parse_mode="HTML"          # ← HTML безопаснее Markdown
-        )
+        ...
+
+        try:
+            await context.bot.send_message(
+                chat_id=OPERATOR_CHAT_ID,
+                text=notify,
+                parse_mode="HTML"
+            )
+        except (BadRequest, Forbidden) as e:
+            # сюда можно писать в лог — чтобы видеть причину
+            logging.warning(f"Не смог отправить сообщение оператору: {e}")
 
     else:
         await update.message.reply_text("Выберите кнопку ниже:", reply_markup=main_menu)
