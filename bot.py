@@ -32,7 +32,7 @@ main_menu = ReplyKeyboardMarkup(
 # ---------- /getid ----------
 async def get_chat_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cid = update.effective_chat.id
-    await update.message.reply_text(f"Ваш chat_id: `{cid}`", parse_mode="Markdown")
+    await update.message.reply_text(f"Ваш chat_id: `{cid}`", parse_mode="HTML")
 
 # ---------- /start ----------
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
