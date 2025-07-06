@@ -70,9 +70,9 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 chat_id=OPERATOR_CHAT_ID,
                 text=notify,
                 parse_mode="HTML"
-        )
-    except Exception as e:
-        logging.warning(f"Не смог отправить оператору: {e}")
+            )
+        except Exception as e:
+            logging.warning(f"Не смог отправить оператору: {e}")
 
     else:
         await update.message.reply_text("Выберите кнопку ниже:", reply_markup=main_menu)
