@@ -6,7 +6,7 @@ from telegram.ext import (
 )
 
 TOKEN = os.getenv("BOT_TOKEN")
-OPERATOR_CHAT_ID = 17868551565  # ID оператора
+OPERATOR_CHAT_ID = -1002317684716  # ID оператора
 
 # ---------- читаем каталог ----------
 with open("catalog.json", encoding="utf-8") as f:
